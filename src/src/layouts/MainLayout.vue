@@ -1,14 +1,33 @@
 <template>
     <q-layout view="hHh lpr fFf">
-        <q-header>
+        <q-header v-if="userStore.getUserIsLogedIn">
             <q-toolbar>
+                <q-btn dense flat round fab icon="person" @click="$router.push('/')">
+                    <!-- <q-menu>
+                        <q-list flat>
+                            <q-item clickable v-ripple dense unelivated>
+                                <q-item-section>
+                                    Log Out
+                                </q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-menu> -->
+
+                    <q-menu>
+                        <q-list style="min-width: 200px">
+                            <q-item clickable @click="userStore.logOutUser">
+                                <q-item-section>Log Out</q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-menu>
+                </q-btn>
                 <q-toolbar-title>
                     Chat App
                 </q-toolbar-title>
                 <q-space></q-space>
                 <q-btn flat round icon="search"></q-btn>
             </q-toolbar>
-            <q-toolbar v-if="false" class="q-px-none">
+            <q-toolbar class="q-px-none">
                 <q-space></q-space>
                 <q-tabs class="full-width">
                     <q-tab name="messages" label="messages"></q-tab>
@@ -25,11 +44,18 @@
 </template>
 
 <script>
+import { userStore } from 'stores/global-store';
 export default {
     data() {
         return {
-
+            userStore: userStore()
         }
+    },
+    methods: {
+
+    },
+    mounted() {
+        // this.userStore.verifyUser();
     }
 }
 </script>

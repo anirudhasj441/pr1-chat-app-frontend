@@ -2,8 +2,8 @@
     <q-layout view="hHh lpr fFf">
         <q-header>
             <q-toolbar>
-                <q-btn v-if="step > 1" flat round icon="arrow_back_ios_new" @click="step -= 1"></q-btn>
-                <q-btn v-else flat round icon="arrow_back_ios_new" @click="$router.push('/')"></q-btn>
+                <q-btn v-if="step > 1" flat dense round icon="arrow_back_ios_new" @click="step -= 1"></q-btn>
+                <q-btn v-else flat dense round icon="arrow_back_ios_new" @click="$router.push('/')"></q-btn>
                 <!-- <q-space></q-space> -->
                 <q-toolbar-title>Create account</q-toolbar-title>
                 <!-- <q-space></q-space> -->
@@ -11,7 +11,7 @@
         </q-header>
         <q-page-container>
             <q-page :style-fn="pageStyleStore.setStyle">
-                <div class="flex fit items-center">
+                <div class="flex fit">
                     <q-space></q-space>
                     <q-stepper v-model="step" ref="stepper" animated flat contracted class="fit flex column"
                         style="max-width: 500px;">
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { pageStyleStore } from 'src/stores/global-store';
+import { pageStyleStore, userStore } from 'src/stores/global-store';
 export default {
     data() {
         return {
@@ -67,8 +67,13 @@ export default {
             birthDate: '',
             userName: '',
             password: '',
-
+            userStore: userStore(),
             pageStyleStore: pageStyleStore(),
+        }
+    },
+    mounted() {
+        if (this.userStore.getUserIsLogedIn) {
+            this.$router.push('/');
         }
     }
 }
