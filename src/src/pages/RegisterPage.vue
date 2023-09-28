@@ -26,12 +26,14 @@
                                 lazy-rules="ondemand" @blur="$refs.email_input.validate()" />
                         </q-step>
                         <q-step :name="3" :done="doneSteps[3]" title="phone number input">
-                            <q-input v-model="phone_number" ref="phone_number_input" label="Phone Number" :maxlength="10"
-                                :rules="validationRules" />
+                            <q-input v-model="phone_number" mask="##########" ref="phone_number_input" label="Phone Number"
+                                :maxlength="10" :rules="[validatePhoneNumber]" lazy-rules="ondemand"
+                                @blur="$refs.phone_number_input.validate()" />
                         </q-step>
                         <q-step :name="4" :done="doneSteps[4]" title="birthdate input">
-                            <q-input v-model="birthDate" ref="birthdate_input" mask="date" :rules="['date']"
-                                label="Birthdate">
+                            <q-input v-model="birthDate" ref="birthdate_input" mask="date"
+                                :rules="['date', validateBirthdate]" lazy-rules="ondemand" label="Birthdate"
+                                @blur="$refs.birthdate_input.validate()">
                                 <template v-slot:append>
                                     <q-icon name="event" class="cursor-pointer">
                                         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -61,7 +63,7 @@
                         <template v-slot:navigation>
                             <q-stepper-navigation>
                                 <q-btn v-if="step !== 6" @click="nextStep" rounded color="primary" class="full-width"
-                                    label="Create" />
+                                    label="Continue" />
                                 <q-btn v-else rounded color="primary" class="full-width" label="Create" @click="register" />
                             </q-stepper-navigation>
                         </template>
@@ -132,11 +134,14 @@ export default {
         //     // console.log(this.doneSteps);
         // },
         nextStep: function () {
-            if (!this.validateStep(this.step)) return;
-            this.doneSteps[this.step] = true;
-            this.$refs.stepper.next();
+            this.validateStep(this.step).then((result) => {
+                if (!result) return;
+                this.doneSteps[this.step] = true;
+                this.$refs.stepper.next();
+            })
+            // if (!this.validateStep(this.step)) return;
         },
-        validateStep: function (step) {
+        validateStep: async function (step) {
             if (step == 1) {
                 return this.$refs.firstname_input.validate() && this.$refs.lastname_input.validate()
             }
@@ -146,7 +151,7 @@ export default {
             }
 
             if (step == 3) {
-                return this.$refs.phone_number_input.validate();
+                return await this.$refs.phone_number_input.validate();
             }
 
             if (step == 4) {
@@ -154,7 +159,7 @@ export default {
             }
 
             if (step == 5) {
-                return this.$refs.username_input.validate();
+                return await this.$refs.username_input.validate();
             }
 
             if (step == 6) {
@@ -172,10 +177,48 @@ export default {
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.onload = () => {
                     let response = JSON.parse(xhr.response);
+                    if (xhr.status !== 200) {
+                        resolve(false || 'Something wents wrong!');
+                        return;
+                    }
                     resolve(response.user_available || 'Username not available')
                 }
                 xhr.send(JSON.stringify(data));
             })
+        },
+        validatePhoneNumber: function (value) {
+            if (value.length < 10) {
+                return false || 'Phone number not valid';
+            }
+            return new Promise((resolve, reject) => {
+                let url = '/api/user/phone_number_exists';
+                let data = {
+                    'phone_number': value
+                }
+                const xhr = new XMLHttpRequest();
+                xhr.open('post', url);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = () => {
+                    let response = JSON.parse(xhr.response);
+                    // if (response.phone_number_exists) {
+                    // }
+                    if (xhr.status !== 200) {
+                        resolve(false || 'Something wents wrong!');
+                        return;
+                    }
+                    resolve(!response.phone_number_exists || 'Phone number already exists');
+                    // resolve(true)
+                }
+                xhr.send(JSON.stringify(data))
+            })
+        },
+        validateBirthdate: function (value) {
+            let birtdate = new Date(value);
+            let currentDate = new Date();
+            let diffrence = currentDate - birtdate;
+            let age = new Date(diffrence).getFullYear() - 1970;
+            console.log(age);
+            return age >= 18 || 'You need to be atleast 18 years old!';
         },
         register: function () {
             if (!this.validateStep(this.step)) return;
