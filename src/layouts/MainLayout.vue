@@ -15,7 +15,16 @@
 
                     <q-menu>
                         <q-list style="min-width: 200px">
+                            <q-item clickable v-ripple>
+                                <q-item-section avatar>
+                                    <q-icon name="person"></q-icon>
+                                </q-item-section>
+                                <q-item-section>{{ userStore.getUser.username }}</q-item-section>
+                            </q-item>
                             <q-item clickable @click="userStore.logOutUser">
+                                <q-item-section avatar>
+                                    <q-icon name="logout"></q-icon>
+                                </q-item-section>
                                 <q-item-section>Log Out</q-item-section>
                             </q-item>
                         </q-list>
