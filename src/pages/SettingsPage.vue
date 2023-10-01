@@ -68,7 +68,11 @@ export default {
         //     if (to === '/') {
         //         return next();
         //     }
-
+        if(this.$route.fullPath === '/settings') {
+            if(!this.isMobile) {
+                this.$router.push('/settings/profile')
+            }
+        }
 
 
         // })
