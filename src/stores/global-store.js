@@ -2,12 +2,19 @@ import { defineStore } from "pinia";
 
 export const pageStyleStore = defineStore('pageStyle', {
     state: () => ({
-        pageStyle: null
+        pageStyle: null,
+        isMobile: false,
     }),
     actions: {
         setStyle(offset) {
             return { height: offset ? `calc(100svh - ${offset}px)` : '100svh' }
+        },
+        setIsMobile(value) {
+            this.isMobile = value;
         }
+    },
+    getters: {
+        getIsMobile: (state) => (state.isMobile)
     }
 })
 

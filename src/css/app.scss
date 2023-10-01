@@ -4,3 +4,39 @@
     background-color: $grey-3;
     color: black;
 }
+
+.router-active {
+    background-color: $grey-4;
+    // color: $text-color;
+}
+
+.width-none {
+    width: 0 !important;
+    max-width: 0 !important;
+    overflow-x: hidden;
+    // text-wrap: nowrap;
+    // word-wrap: ;
+}
+
+.round {
+    border-radius: 50% !important;
+}
+
+.profile-pic {
+    position: relative;
+    border-radius: 50% !important;
+    background-color: $primary;
+    width: 200px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    .q-btn {
+        position: absolute !important;
+        bottom: 0;
+        right: 0;
+        // transform: translateY(-50%);
+    }
+}
+
+// .menu-list {
+//     // transition: width 0.5s ease-in-out;
+// }

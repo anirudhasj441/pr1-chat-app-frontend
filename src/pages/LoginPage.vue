@@ -1,5 +1,5 @@
 <template>
-    <q-layout view="hHh lPp fFf">
+    <q-layout view="hHh lpr fFf">
         <q-header>
             <q-toolbar>
                 <q-btn flat dense round icon="arrow_back_ios_new" @click="$router.push('/')"></q-btn>

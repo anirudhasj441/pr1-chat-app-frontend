@@ -15,7 +15,7 @@
 
                     <q-menu>
                         <q-list style="min-width: 200px">
-                            <q-item clickable v-ripple>
+                            <q-item clickable v-ripple @click="$router.push('/settings')">
                                 <q-item-section avatar>
                                     <q-icon name="person"></q-icon>
                                 </q-item-section>
