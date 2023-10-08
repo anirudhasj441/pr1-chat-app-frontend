@@ -2,8 +2,8 @@
     <q-layout view="hHh lpr fFf">
         <q-header v-if="userStore.getUserIsLogedIn">
             <q-toolbar>
-                <q-btn dense flat round fab :icon="user.profile_pic ? 'img:/api/' + user.profile_pic : 'person'"
-                    @click="$router.push('/')">
+                <q-btn dense flat round fab @click="$router.push('/')">
+                    <q-avatar :icon="user.profile_pic ? 'img:/api/' + user.profile_pic : 'person'" round></q-avatar>
                     <!-- <q-menu>
                         <q-list flat>
                             <q-item clickable v-ripple dense unelivated>
