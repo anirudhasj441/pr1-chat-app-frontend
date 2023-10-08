@@ -13,6 +13,7 @@ import routes from './routes'
  */
 
 export default route(function (/* { store, ssrContext } */) {
+    const user_store = userStore();
     const createHistory = process.env.SERVER
         ? createMemoryHistory
         : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
@@ -25,6 +26,15 @@ export default route(function (/* { store, ssrContext } */) {
         // quasar.conf.js -> build -> vueRouterMode
         // quasar.conf.js -> build -> publicPath
         history: createHistory(process.env.VUE_ROUTER_BASE)
+    })
+
+    Router.beforeEach(async (to, from, next) => {
+        console.log(to.fullPath);
+        console.log(!localStorage.getItem('token'));
+        if (!['/login', '/create_account', '/'].includes(to.fullPath) && !localStorage.getItem('token')) {
+            return next({ fullPath: '/' })
+        }
+        return next();
     })
 
     return Router
