@@ -3,7 +3,7 @@
         <q-scroll-area class="fit">
             <div class="container fit q-pt-md">
                 <div class="profile-pic text-center">
-                    <q-img :src="user.profile_pic ? '/api/' + user.profile_pic : '~assets/person-fill.svg'" :ratio="1"
+                    <q-img :src="user.profile_pic ? '/api/' + user.profile_pic : '/src/assets/person-fill.svg'" :ratio="1"
                         width="200" class="round"></q-img>
                     <q-btn icon="photo_camera" round color="primary" size="lg" @click="uploadProfilePic = true"></q-btn>
                 </div>
@@ -60,7 +60,7 @@
                 </q-card-section>
                 <q-card-actions align="right" class="text-primary">
                     <q-btn flat label="Cancel" v-close-popup />
-                    <q-btn flat label="Save" @click="upadteName" />
+                    <q-btn flat label="Save" v-close-popup @click="upadteName" />
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -212,29 +212,7 @@ export default {
         },
         profilePicUpload: function () {
             let canvas = this.$refs.cropper.getCroppedCanvas();
-            // let profile_pic = new File([canvas.toDataURL()], 'profile_pic.png', {
-            //     type: this.profiePic.type
-            // });
-            // console.log(profile_pic)
-            // const fd = new FormData();
-            // fd.append('profile_pic', profile_pic);
-            // let url = '/api/user/update';
-            // const xhr = new XMLHttpRequest();
-            // xhr.open('PATCH', url);
-            // // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-            // xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('token'));
-            // xhr.onload = () => {
-            //     let response = JSON.parse(xhr.response);
-            //     console.log(response);
-            // }
-            // xhr.send(fd);
-
-
-
             canvas.toBlob((blob) => {
-                // this.$refs.profilePicUploader.reset();
-                // this.$refs.profilePicUploader.addFiles([blob]);
-                console.log(new File([blob], 'profile_pic'))
                 const fd = new FormData();
                 let filename = this.profiePic.name;
                 console.log(filename);

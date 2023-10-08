@@ -14,7 +14,7 @@
                         <q-list>
                             <q-item clickable v-ripple exact-active-class="router-active text-dark" to="/settings/profile">
                                 <q-item-section avatar>
-                                    <q-icon name="person"></q-icon>
+                                    <q-icon :name="user.profile_pic ? 'img:/api/' + user.profile_pic : 'person'"></q-icon>
                                 </q-item-section>
                                 <q-item-section>
                                     <q-item-label>{{ user.first_name }} {{ user.last_name
@@ -68,8 +68,8 @@ export default {
         //     if (to === '/') {
         //         return next();
         //     }
-        if(this.$route.fullPath === '/settings') {
-            if(!this.isMobile) {
+        if (this.$route.fullPath === '/settings') {
+            if (!this.isMobile) {
                 this.$router.push('/settings/profile')
             }
         }

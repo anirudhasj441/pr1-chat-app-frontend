@@ -2,7 +2,8 @@
     <q-layout view="hHh lpr fFf">
         <q-header v-if="userStore.getUserIsLogedIn">
             <q-toolbar>
-                <q-btn dense flat round fab icon="person" @click="$router.push('/')">
+                <q-btn dense flat round fab :icon="user.profile_pic ? 'img:/api/' + user.profile_pic : 'person'"
+                    @click="$router.push('/')">
                     <!-- <q-menu>
                         <q-list flat>
                             <q-item clickable v-ripple dense unelivated>
@@ -17,9 +18,9 @@
                         <q-list style="min-width: 200px">
                             <q-item clickable v-ripple @click="$router.push('/settings')">
                                 <q-item-section avatar>
-                                    <q-icon name="person"></q-icon>
+                                    <q-icon :name="user.profile_pic ? 'img:/api/' + user.profile_pic : 'person'"></q-icon>
                                 </q-item-section>
-                                <q-item-section>{{ userStore.getUser.username }}</q-item-section>
+                                <q-item-section>{{ user.username }}</q-item-section>
                             </q-item>
                             <q-item clickable @click="userStore.logOutUser">
                                 <q-item-section avatar>
@@ -65,6 +66,11 @@ export default {
     },
     mounted() {
         // this.userStore.verifyUser();
+    },
+    computed: {
+        user: function () {
+            return this.userStore.getUser;
+        }
     }
 }
 </script>
