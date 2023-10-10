@@ -3,7 +3,8 @@
         <q-header v-if="userStore.getUserIsLogedIn">
             <q-toolbar>
                 <q-btn dense flat round fab @click="$router.push('/')">
-                    <q-avatar :icon="user.profile_pic ? 'img:/api/' + user.profile_pic : 'person'" round></q-avatar>
+                    <q-avatar :icon="user.profile_pic ? 'img:/api/' + user.profile_pic : 'person'"
+                        class="avatar fit"></q-avatar>
                     <!-- <q-menu>
                         <q-list flat>
                             <q-item clickable v-ripple dense unelivated>
@@ -18,7 +19,8 @@
                         <q-list style="min-width: 200px">
                             <q-item clickable v-ripple @click="$router.push('/settings')">
                                 <q-item-section avatar>
-                                    <q-icon :name="user.profile_pic ? 'img:/api/' + user.profile_pic : 'person'"></q-icon>
+                                    <q-icon :name="user.profile_pic ? 'img:/api/' + user.profile_pic : 'person'"
+                                        class="avatar"></q-icon>
                                 </q-item-section>
                                 <q-item-section>{{ user.username }}</q-item-section>
                             </q-item>

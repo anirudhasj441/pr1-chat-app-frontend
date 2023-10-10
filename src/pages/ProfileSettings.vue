@@ -3,8 +3,12 @@
         <q-scroll-area class="fit">
             <div class="container fit q-pt-md">
                 <div class="profile-pic text-center">
-                    <q-img :src="user.profile_pic ? '/api/' + user.profile_pic : '/src/assets/person-fill.svg'" :ratio="1"
-                        width="200" class="round"></q-img>
+                    <Lightgallery :settings="{ speed: 500, plugins: plugins }">
+                        <a :href="user.profile_pic ? '/api/' + user.profile_pic : '/src/assets/person-fill.svg'">
+                            <q-img :src="user.profile_pic ? '/api/' + user.profile_pic : '/src/assets/person-fill.svg'"
+                                :ratio="1" width="200" class="round"></q-img>
+                        </a>
+                    </Lightgallery>
                     <q-btn icon="photo_camera" round color="primary" size="lg" @click="uploadProfilePic = true"></q-btn>
                 </div>
                 <div class="name q-mt-lg flex justify-center">
@@ -106,16 +110,26 @@
                 </q-card-actions>
             </q-card>
         </q-dialog>
+        <Lightgallery :settings="{ speed: 500, plugins: plugins }">
+            <!-- <a :href="user.profile_pic ? '/api/' + user.profile_pic : '/src/assets/person-fill.svg'">
+                <q-img :src="user.profile_pic ? '/api/' + user.profile_pic : '/src/assets/person-fill.svg'"
+                    :ratio="1"></q-img>
+            </a> -->
+        </Lightgallery>
     </main>
 </template>
 
 <script>
 import { userStore } from 'src/stores/global-store';
 import VueCropper from 'vue-cropperjs';
+import Lightgallery from 'lightgallery/vue';
+import lgZoom from 'lightgallery/plugins/zoom';
 import 'cropperjs/dist/cropper.css';
+import styles from 'lightgallery/scss/lightgallery.scss';
 export default {
     components: {
-        VueCropper
+        VueCropper,
+        Lightgallery
     },
     data() {
         return {
@@ -126,8 +140,10 @@ export default {
             editAbout: false,
             uploadProfilePic: false,
             cropProfilePic: false,
+            showImage: false,
             profilePicUrl: '',
             profiePic: '',
+            plugins: [lgZoom],
             uploaderHeader: [{ name: 'Authorization', value: 'Bearer ' + localStorage.getItem('token') }],
             userStore: userStore()
         }
@@ -212,7 +228,7 @@ export default {
         },
         profilePicUpload: function () {
             let canvas = this.$refs.cropper.getCroppedCanvas();
-            canvas = this.getRoundedCanvas(canvas);
+            // canvas = this.getRoundedCanvas(canvas);
             canvas.toBlob((blob) => {
                 const fd = new FormData();
                 let filename = this.profiePic.name;
@@ -260,6 +276,9 @@ export default {
             console.log(info);
             let xhr = info.xhr;
             console.log(xhr.response);
+        },
+        showImg: function () {
+
         }
     },
     mounted() {
@@ -280,7 +299,7 @@ export default {
 
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .q-uploader__file--img {
     background-size: contain !important;
 }

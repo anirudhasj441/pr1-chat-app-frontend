@@ -14,10 +14,13 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
+    "lightgallery": "^2.7.2",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
+    "v-viewer": "^1.6.4",
     "vue": "^3.0.0",
     "vue-cropperjs": "^5.0.0",
+    "vue-light-gallery": "^1.0.1",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
