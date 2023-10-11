@@ -116,6 +116,7 @@
                     :ratio="1"></q-img>
             </a> -->
         </Lightgallery>
+        <NotificationChip ref="noti"></NotificationChip>
     </main>
 </template>
 
@@ -126,10 +127,12 @@ import Lightgallery from 'lightgallery/vue';
 import lgZoom from 'lightgallery/plugins/zoom';
 import 'cropperjs/dist/cropper.css';
 import styles from 'lightgallery/scss/lightgallery.scss';
+import NotificationChip from 'src/components/NotificationChip.vue';
 export default {
     components: {
         VueCropper,
-        Lightgallery
+        Lightgallery,
+        NotificationChip
     },
     data() {
         return {
@@ -141,6 +144,7 @@ export default {
             uploadProfilePic: false,
             cropProfilePic: false,
             showImage: false,
+            showNotification: true,
             profilePicUrl: '',
             profiePic: '',
             plugins: [lgZoom],
@@ -167,6 +171,7 @@ export default {
                     return;
                 }
                 this.userStore.$state = { user: response.user }
+                this.$refs.noti.show("Name updated");
             }
             xhr.send(JSON.stringify(data))
         },
@@ -187,7 +192,7 @@ export default {
                     return;
                 }
                 this.userStore.$state = { user: response.user };
-
+                this.$refs.noti.show("About updated");
             }
             xhr.send(JSON.stringify(data));
         },
@@ -247,7 +252,7 @@ export default {
                         return;
                     }
                     this.userStore.$state = { user: response.user };
-
+                    this.$refs.noti.show("Profile pic Updated");
                 }
                 xhr.send(fd);
                 // let data = {
