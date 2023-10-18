@@ -4,17 +4,19 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { userStore } from 'stores/global-store';
+import { userStore, serverStore } from 'stores/global-store';
 
 export default defineComponent({
     name: 'App',
     data() {
         return {
-            userStore: userStore()
+            userStore: userStore(),
+            serverStore: serverStore()
         }
     },
     mounted() {
         this.userStore.verifyUser();
+        this.serverStore.setWsRoot();
     }
 })
 </script>
