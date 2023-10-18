@@ -94,6 +94,7 @@ export const serverStore = defineStore('server', {
     actions: {
         setWsRoot() {
             let loc = window.location;
+            console.log("protocol: ", loc.protocol);
             let protocol = loc.protocol == 'https' ? 'wss' : 'ws';
             let host = loc.host;
             this.wsRoot = `${protocol}://${host}`;
