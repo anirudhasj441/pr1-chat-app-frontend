@@ -83,3 +83,20 @@ export const userStore = defineStore('user', {
         getUserIsLogedIn: (state) => (state.isLogIn)
     }
 })
+
+export const serverStore = defineStore('server', {
+    state: () => ({
+        wsRoot: '',
+    }),
+    getters: {
+        getWsRoot: (state) => (state.wsRoot)
+    },
+    actions: {
+        setWsRoot() {
+            let loc = window.location;
+            let protocol = loc.protocol == 'https' ? 'wss' : 'ws';
+            let host = loc.host;
+            this.wsRoot = `${protocol}://${host}`;
+        }
+    }
+})
