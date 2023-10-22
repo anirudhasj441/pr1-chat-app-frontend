@@ -58,3 +58,13 @@
         border-radius: 50% !important;
     }
 }
+
+.drawer {
+    border-right: 1px solid $grey-3;
+}
+
+.chat-input {
+    .q-field__control {
+        border-radius: 10px !important;
+    }
+}

@@ -9,7 +9,7 @@
         <q-page-container>
             <q-page :style-fn="pageStyleStore.setStyle">
                 <div class="fit row">
-                    <div class="full-height menu-list"
+                    <div class="full-height menu-list drawer"
                         :class="$route.fullPath === '/settings' ? isMobile ? 'full-width' : 'col-3' : isMobile ? 'width-none' : 'col-3'">
                         <q-list>
                             <q-item clickable v-ripple exact-active-class="router-active text-dark" to="/settings/profile">

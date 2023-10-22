@@ -1,6 +1,27 @@
 <template>
     <q-page class="flex flex-center" :style-fn="pageStyleStore.setStyle">
         <NonLogedInView v-if="!this.userStore.getUserIsLogedIn" />
+        <div class="fit row">
+            <div class="full-height menu-list drawer col-auto"
+                :class="$route.fullPath === '/settings' ? isMobile ? 'full-width' : 'col-3' : isMobile ? 'width-none' : 'col-3'">
+
+            </div>
+            <div class="col-grow bg-grey-4 full-height flex column">
+                <div class="col-grow">
+
+                </div>
+                <div class="chat-input bg-white q-pa-md">
+                    <div class="row items-center q-col-gutter-x-sm">
+                        <div class="col-grow">
+                            <q-input filled autogrow dense class="rounded-borders" placeholder="Type a message"></q-input>
+                        </div>
+                        <div class="send-button">
+                            <q-btn flat round icon="send" class="q-px-sm"></q-btn>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </q-page>
 </template>
 
@@ -58,3 +79,5 @@ export default {
     }
 }
 </script>
+
+<style scoped lang="scss"></style>
