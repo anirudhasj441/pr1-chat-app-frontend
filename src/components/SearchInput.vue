@@ -5,7 +5,8 @@
                 <q-input ref="search_input" dense v-model="s" standout="input-active" class="search-input full-width"
                     placeholder="Search or start new chat" @update:model-value="search">
                     <template v-slot:prepend>
-                        <q-btn flat dense round color="dark" icon="arrow_back" @click="$emit('searchHide')"></q-btn>
+                        <q-btn flat dense round color="dark" icon="arrow_back"
+                            @click="() => { clear(); $emit('searchHide') }"></q-btn>
                     </template>
                     <template v-if="s.length > 0" v-slot:append>
                         <q-btn flat dense round color="dark" icon="close" @click="clear"></q-btn>

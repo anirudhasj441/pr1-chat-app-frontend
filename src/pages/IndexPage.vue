@@ -6,13 +6,13 @@
                 :class="$route.fullPath === '/' ? isMobile ? 'full-width' : 'col-3' : isMobile ? 'width-none' : 'col-3'">
                 <div class="flex column fit">
                     <!-- Messenger toolbar tabs -->
-                    <q-toolbar class="q-pa-none q-header">
-                        <q-tabs class="full-width ">
-                            <q-tab name="messages" label="messages"></q-tab>
-                            <q-tab name="groups" label="groups"></q-tab>
-                            <q-tab name="calls" label="calls"></q-tab>
-                        </q-tabs>
-                    </q-toolbar>
+                    <!-- <q-toolbar class="q-pa-none q-header"> -->
+                    <q-tabs class="full-width bg-grey-3">
+                        <q-tab name="messages" label="messages"></q-tab>
+                        <q-tab name="groups" label="groups"></q-tab>
+                        <q-tab name="calls" label="calls"></q-tab>
+                    </q-tabs>
+                    <!-- </q-toolbar> -->
 
                     <div class="col-grow">
                         <q-scroll-area class="fit">
@@ -25,8 +25,14 @@
                                 <q-item v-for="user in result" v-bind:key="user.username" clickable v-ripple
                                     exact-active-class="router-active text-dark">
                                     <q-item-section avatar>
-                                        <q-icon
-                                            :name="user.profile_pic == null ? 'person' : 'img:/api/' + user.profile_pic"></q-icon>
+                                        <Lightgallery :settings="{ speed: 500, plugins: plugins }">
+                                            <a class="text-dark"
+                                                :href="user.profile_pic ? '/api/' + user.profile_pic : '/src/assets/person-fill.svg'">
+                                                <q-icon size="md"
+                                                    :name="user.profile_pic == null ? 'person' : 'img:/api/' + user.profile_pic"
+                                                    class="round"></q-icon>
+                                            </a>
+                                        </Lightgallery>
                                     </q-item-section>
                                     <q-item-section>
                                         <q-item-label>{{ user.username }}</q-item-label>
@@ -36,7 +42,11 @@
                             <q-list v-else>
                                 <q-item clickable v-ripple exact-active-class="router-active text-dark" to="/messenger">
                                     <q-item-section avatar>
-                                        <q-icon name="person"></q-icon>
+                                        <Lightgallery :settings="{ speed: 500, plugins: plugins }">
+                                            <a href="/src/assets/person-fill.svg" class="text-dark q-pa-none">
+                                                <q-icon size="md" name="person"></q-icon>
+                                            </a>
+                                        </Lightgallery>
                                     </q-item-section>
                                     <q-item-section>
                                         <q-item-label>Devil</q-item-label>
@@ -61,14 +71,19 @@
 
 <script>
 import NonLogedInView from 'src/components/NonLogedInView.vue';
+import Lightgallery from 'lightgallery/vue';
+import lgZoom from 'lightgallery/plugins/zoom';
+import styles from 'lightgallery/scss/lightgallery.scss';
 import { pageStyleStore, userStore, serverStore, searchStore } from 'src/stores/global-store';
 export default {
     components: {
-        NonLogedInView
+        NonLogedInView,
+        Lightgallery
     },
     data() {
         return {
             showSearchResult: false,
+            plugins: [lgZoom],
             pageStyleStore: pageStyleStore(),
             userStore: userStore(),
             serverStore: serverStore(),
