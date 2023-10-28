@@ -16,7 +16,19 @@
 
                     <div class="col-grow">
                         <q-scroll-area class="fit">
-                            <q-list>
+                            <q-list v-if="result.length > 0">
+                                <q-item v-for="user in result" v-bind:key="user.username" clickable v-ripple
+                                    exact-active-class="router-active text-dark">
+                                    <q-item-section avatar>
+                                        <q-icon
+                                            :name="user.profile_pic == null ? 'person' : 'img:/api/' + user.profile_pic"></q-icon>
+                                    </q-item-section>
+                                    <q-item-section>
+                                        <q-item-label>{{ user.username }}</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </q-list>
+                            <q-list v-else>
                                 <q-item clickable v-ripple exact-active-class="router-active text-dark" to="/messenger">
                                     <q-item-section avatar>
                                         <q-icon name="person"></q-icon>
@@ -44,16 +56,18 @@
 
 <script>
 import NonLogedInView from 'src/components/NonLogedInView.vue';
-import { pageStyleStore, userStore, serverStore } from 'src/stores/global-store';
+import { pageStyleStore, userStore, serverStore, searchStore } from 'src/stores/global-store';
 export default {
     components: {
         NonLogedInView
     },
     data() {
         return {
+            showSearchResult: false,
             pageStyleStore: pageStyleStore(),
             userStore: userStore(),
-            serverStore: serverStore()
+            serverStore: serverStore(),
+            searchStore: searchStore()
         }
     },
     methods: {
@@ -90,6 +104,9 @@ export default {
         isMobile() {
             return this.$q.screen.width < 1023;
         },
+        result() {
+            return this.searchStore.getResult;
+        }
     },
     watch: {
         isLogedIn(value) {

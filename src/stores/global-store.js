@@ -102,3 +102,17 @@ export const serverStore = defineStore('server', {
         }
     }
 })
+
+export const searchStore = defineStore('search', {
+    state: () => ({
+        result: []
+    }),
+    getters: {
+        getResult: (state) => (state.result)
+    },
+    actions: {
+        setResult(result) {
+            this.result = result;
+        }
+    }
+})
