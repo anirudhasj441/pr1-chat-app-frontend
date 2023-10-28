@@ -16,7 +16,12 @@
 
                     <div class="col-grow">
                         <q-scroll-area class="fit">
-                            <q-list v-if="result.length > 0">
+                            <q-list v-if="showResult">
+                                <q-item v-if="result.length < 1">
+                                    <q-item-section>
+                                        <q-item-label class="text-center">No result Found</q-item-label>
+                                    </q-item-section>
+                                </q-item>
                                 <q-item v-for="user in result" v-bind:key="user.username" clickable v-ripple
                                     exact-active-class="router-active text-dark">
                                     <q-item-section avatar>
@@ -106,6 +111,9 @@ export default {
         },
         result() {
             return this.searchStore.getResult;
+        },
+        showResult() {
+            return this.searchStore.getShowResult;
         }
     },
     watch: {

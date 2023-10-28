@@ -105,14 +105,19 @@ export const serverStore = defineStore('server', {
 
 export const searchStore = defineStore('search', {
     state: () => ({
-        result: []
+        result: [],
+        showResult: false
     }),
     getters: {
-        getResult: (state) => (state.result)
+        getResult: (state) => (state.result),
+        getShowResult: (state) => (state.showResult)
     },
     actions: {
         setResult(result) {
             this.result = result;
+        },
+        toggleShowResult(state) {
+            this.showResult = state;
         }
     }
 })

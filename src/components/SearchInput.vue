@@ -2,7 +2,7 @@
     <main>
         <div class="absolute-top-right z-top bg-grey-3 search-component" :class="show ? 'show' : ''">
             <q-toolbar>
-                <q-input dense v-model="s" standout="input-active" class="search-input full-width"
+                <q-input ref="search_input" dense v-model="s" standout="input-active" class="search-input full-width"
                     placeholder="Search or start new chat" @update:model-value="search">
                     <template v-slot:prepend>
                         <q-btn flat dense round color="dark" icon="arrow_back" @click="$emit('searchHide')"></q-btn>
@@ -56,6 +56,25 @@ export default {
         clear: function () {
             this.s = '';
             this.searchStore.setResult([]);
+            this.$refs.search_input.focus();
+        }
+    },
+    mounted() {
+
+    },
+    computed: {
+
+    },
+    watch: {
+        show(value) {
+            if (value) {
+                this.$refs.search_input.focus();
+            }
+        },
+        s(value) {
+            if (value.length <= 3 && value.length > 0) return;
+            let showResultState = value.length > 0;
+            this.searchStore.toggleShowResult(showResultState);
         }
     }
 }
