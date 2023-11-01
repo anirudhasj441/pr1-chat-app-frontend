@@ -1,6 +1,14 @@
 <template>
-    <main class="fit bg-grey">
+    <main class="fit bg-grey flex">
         <div class="fit flex column">
+            <q-toolbar class="q-header" :class="!isMobile ? 'desktop-header' : ''">
+                <q-btn v-if="isMobile" flat dense round icon="arrow_back_ios_new" @click="$router.push('/')"></q-btn>
+                <q-avatar icon="person" class="avatar"></q-avatar>
+                <q-toolbar-title>devil</q-toolbar-title>
+                <q-space></q-space>
+            </q-toolbar>
+            <!-- <q-header v-if="isMobile">
+            </q-header> -->
             <div class="col-grow">
 
             </div>
@@ -25,6 +33,16 @@ export default {
         return {
 
         }
+    },
+    computed: {
+        isMobile() {
+            return this.$q.screen.width < 1023;
+        }
     }
 }
 </script>
+<style lang="scss" scoped>
+.desktop-header {
+    transform: translateY(-100%);
+}
+</style>

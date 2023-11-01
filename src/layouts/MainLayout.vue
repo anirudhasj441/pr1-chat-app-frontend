@@ -1,6 +1,6 @@
 <template>
     <q-layout view="hHh lpr fFf">
-        <q-header v-if="userStore.getUserIsLogedIn">
+        <q-header v-if="showHeader">
             <div class="row no-wrap">
                 <q-toolbar :class="isMobile ? 'full-width' : 'col-3'">
                     <q-btn dense flat round fab>
@@ -68,14 +68,39 @@ export default {
     data() {
         return {
             userStore: userStore(),
+            showHeader: true,
             showSearch: false,
+            messagePage: false
         }
     },
     methods: {
-
+        setShowHeader: function (isMessagePage) {
+            if (!this.userStore.getUserIsLogedIn) {
+                this.showHeader = false;
+                return;
+            }
+            if (!isMessagePage) {
+                this.showHeader = this.userStore.getUserIsLogedIn;
+                return;
+            }
+            this.showHeader = !this.isMobile;
+        }
     },
     mounted() {
         // this.userStore.verifyUser();
+
+        this.messagePage = this.$route.fullPath.startsWith('/messenger');
+        this.setShowHeader(this.messagePage);
+        this.$router.beforeEach((to, from) => {
+            this.showSearch = false;
+            this.messagePage = to.fullPath.startsWith('/messenger');
+            // if (to.fullPath.startsWith('/messenger')) {
+            //     this.messagePage = true;
+            // }
+            // else {
+            //     this.messagePage = false
+            // }
+        })
     },
     computed: {
         user: function () {
@@ -83,6 +108,25 @@ export default {
         },
         isMobile: function () {
             return this.$q.screen.width < 1023;
+        },
+        // showHeader() {
+        //     if (this.isMobile) {
+        //         console.log("path", this.$router.fullPath);
+        //         console.log("cond1: ", this.$router.fullPath == '/');
+        //         console.log("cond2: ", this.userStore.getUserIsLogedIn)
+        //         return this.$router.fullPath == '/' && this.userStore.getUserIsLogedIn;
+        //     }
+        //     return this.userStore.getUserIsLogedIn;
+        // },
+
+    },
+    watch: {
+        messagePage(value) {
+            console.log("value: ", value)
+            this.setShowHeader(value);
+        },
+        isMobile(value) {
+            this.setShowHeader(value && this.messagePage);
         }
     }
 }
